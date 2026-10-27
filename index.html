@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0F2A3F">
+<title>Heinsen Brewery — Friends &amp; Family Edition No. 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=Lora:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#E7EFF4; --surface:#FFFFFF; --surface2:#EEF4F7; --line:#C8D7E1;
+    --text:#0F2A3F; --muted:#56707F; --accent:#1D5C84; --accent-h:#2A6F9C; --pine:#2F5D4A;
+    --sel:#DCEAF3; --navy:#0F2A3F; --snow:#FFFFFF; --danger:#B23A1F;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html{background:#D3E2EC}
+  html,body{margin:0; padding:0}
+  body{background:linear-gradient(180deg,#F3F7FA 0%,var(--bg) 50%,#D3E2EC 100%); min-height:100vh; color:var(--text); font-family:'Inter',system-ui,-apple-system,sans-serif; line-height:1.55; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:560px; margin:0 auto; padding:20px 18px 48px}
+  button{font-family:inherit}
+
+  /* header */
+  .mark{display:flex; align-items:center; gap:11px; justify-content:center}
+  .mark svg{flex:none}
+  .mark .name{font-family:'Fraunces',Georgia,serif; font-weight:600; font-size:19px; color:var(--text); line-height:1.2}
+  .mark .name small{display:block; font-family:'Inter',sans-serif; font-weight:600; font-size:10px; letter-spacing:2.2px; text-transform:uppercase; color:var(--accent); margin-top:3px}
+  .edition{text-align:center; font-family:'Fraunces',Georgia,serif; font-style:italic; font-size:21px; color:var(--accent); margin:8px 0 2px}
+  .tagline{text-align:center; color:var(--muted); font-size:12px; letter-spacing:1.2px; text-transform:uppercase; margin:0 0 18px}
+
+  /* progress */
+  .prog-wrap{margin:12px 0 14px}
+  .prog{display:flex; gap:4px; justify-content:center}
+  .prog i{flex:1; max-width:26px; height:4px; border-radius:2px; background:var(--line)}
+  .prog i.on{background:var(--accent)} .prog i.done{background:var(--pine)}
+  .prog-txt{text-align:center; font-size:12px; color:var(--muted); margin-top:7px; letter-spacing:.3px}
+
+  .preview{display:flex; align-items:center; gap:14px; justify-content:center; margin:0 0 10px; min-height:66px}
+  .glass-name{font-family:'Fraunces',Georgia,serif; font-size:18px; color:var(--accent); font-style:italic; max-width:60%; overflow-wrap:anywhere}
+
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:26px 22px 22px; box-shadow:0 1px 2px rgba(15,42,63,.04), 0 8px 24px rgba(15,42,63,.05)}
+  .eyebrow{font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin:0 0 8px; font-weight:600}
+  h1.q{font-family:'Fraunces',Georgia,serif; font-weight:500; font-size:25px; line-height:1.25; margin:0 0 6px}
+  .q-sub{color:var(--muted); font-size:14.5px; margin:0 0 20px}
+
+  .welcome-lead{font-family:'Fraunces',Georgia,serif; font-size:27px; line-height:1.28; font-weight:500; margin:4px 0 14px; text-align:center}
+  .welcome-lead em{color:var(--accent)}
+  .welcome-p{text-align:center; color:var(--muted); font-size:15px; margin:0 0 14px}
+  .party-line{text-align:center; font-size:14px; color:var(--pine); background:#EAF2EE; border-radius:10px; padding:10px 14px; margin:0 0 20px}
+  .meta-line{text-align:center; font-size:12.5px; color:var(--muted); margin:12px 0 0}
+
+  label.fld{display:block; font-size:12px; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); margin:0 0 7px; font-weight:600}
+  input[type=text], textarea{width:100%; background:var(--surface2); border:1px solid var(--line); border-radius:12px; color:var(--text); font-family:inherit; font-size:16px; padding:13px 15px}
+  input:focus, textarea:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(29,92,132,.15)}
+  input::placeholder, textarea::placeholder{color:#6F8797}
+  textarea{resize:vertical; min-height:110px; line-height:1.5}
+  .count{font-size:11.5px; color:var(--muted); text-align:right; margin-top:5px}
+
+  /* color swatches */
+  .swatches{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin:4px 0 4px}
+  .sw{cursor:pointer; background:none; border:2px solid transparent; border-radius:11px; padding:5px 0 4px; text-align:center; transition:transform .15s, border-color .15s; color:inherit}
+  .sw .chip{display:block; height:48px; margin:0 4px; border-radius:8px; border:1px solid rgba(0,0,0,.15)}
+  .sw .lbl{font-size:11.5px; color:var(--muted); margin-top:6px; display:block}
+  .sw[aria-pressed=true]{border-color:var(--accent); transform:translateY(-3px)}
+  .sw[aria-pressed=true] .lbl{color:var(--accent); font-weight:600}
+
+  .choices{display:flex; flex-direction:column; gap:10px}
+  .choice{display:flex; align-items:center; gap:13px; width:100%; text-align:left; cursor:pointer; background:var(--surface2); border:1.5px solid var(--line); border-radius:13px; padding:14px 16px; color:var(--text); font-size:15.5px; transition:border-color .15s, background .15s}
+  .choice[aria-pressed=true]{border-color:var(--accent); background:var(--sel)}
+  .choice .ic{font-size:20px; width:28px; text-align:center; flex:none}
+  .choice b{display:block; font-weight:600; font-size:15.5px}
+  .choice span.d{display:block; font-size:13px; color:var(--muted); margin-top:1px}
+  .choice .tick{margin-left:auto; color:var(--accent); font-weight:700; opacity:0}
+  .choice[aria-pressed=true] .tick{opacity:1}
+
+  .tags{display:flex; flex-wrap:wrap; gap:9px}
+  .tag{cursor:pointer; background:var(--surface2); border:1.5px solid var(--line); border-radius:30px; padding:9px 15px; color:var(--text); font-size:14.5px; transition:background .15s, border-color .15s}
+  .tag small{color:var(--muted); font-size:12px}
+  .tag[aria-pressed=true]{background:var(--accent); color:#fff; border-color:var(--accent); font-weight:500}
+  .tag[aria-pressed=true] small{color:#D6E6F1}
+  .tag.wide{flex-basis:100%; text-align:left; border-style:dashed}
+  .tag.wide[aria-pressed=true]{border-style:solid}
+  .hint{font-size:12.5px; color:var(--muted); margin:12px 0 0; min-height:18px; transition:color .2s}
+  .hint.flash{color:var(--danger); font-weight:600}
+
+  @media (hover:hover){
+    .choice:hover,.tag:hover{border-color:var(--accent)}
+    .btn.primary:hover{background:var(--accent-h)}
+    .btn.ghost:hover{border-color:var(--accent); color:var(--text)}
+  }
+
+  .nav{display:flex; gap:11px; margin-top:22px}
+  .btn{flex:1; cursor:pointer; font-size:15.5px; font-weight:600; padding:15px; border-radius:13px; border:1.5px solid var(--line); transition:background .15s, border-color .15s}
+  .btn.ghost{background:transparent; color:var(--muted); font-weight:500}
+  .btn.primary{background:var(--accent); color:#fff; border-color:var(--accent); flex:2}
+  .btn:disabled{opacity:.55; cursor:default}
+  .err{color:var(--danger); font-size:13.5px; margin:10px 0 0; min-height:18px}
+  .linkbtn{background:none; border:none; color:var(--accent); font-size:14px; text-decoration:underline; cursor:pointer; padding:8px}
+
+  /* label */
+  .label-card{background:var(--navy); color:#fff; border-radius:20px; padding:20px 20px 0; text-align:center; position:relative; overflow:hidden; box-shadow:0 12px 30px rgba(15,42,63,.25)}
+  .label-top{display:flex; justify-content:space-between; align-items:center; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#A9C4D8; font-weight:600}
+  .label-top .brand{display:flex; align-items:center; gap:7px; color:#fff}
+  .label-glass{margin:14px 0 4px}
+  .label-name{font-family:'Fraunces',Georgia,serif; font-weight:500; font-size:31px; line-height:1.15; margin:6px 0 6px; overflow-wrap:anywhere}
+  .label-style{font-family:'Fraunces',Georgia,serif; font-style:italic; color:#F2D58A; font-size:16.5px; margin:0 0 8px}
+  .label-meta{font-size:12.5px; color:#C7D9E6; letter-spacing:.4px; margin:0 0 4px}
+  .label-by{font-size:13px; color:#fff; margin:10px 0 16px}
+  .label-by span{color:#A9C4D8}
+  .label-band{margin:0 -20px; background:#163A55; padding:10px 14px; font-size:10.5px; letter-spacing:1.8px; text-transform:uppercase; color:#A9C4D8; font-weight:600}
+  .ridge{display:block; width:100%; height:26px; margin:2px 0 -2px}
+  .after-label{text-align:center; color:var(--muted); font-size:14.5px; margin:16px 0 4px; font-family:'Fraunces',Georgia,serif; font-style:italic}
+
+  .note{background:#FFF7E6; border:1px solid #F0DDB0; color:#6B4F12; border-radius:12px; padding:12px 14px; font-size:13.5px; margin:16px 0 0}
+  .note b{display:block; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:4px}
+  .note p{margin:4px 0 0}
+
+  .details-toggle{display:block; width:100%; margin:16px 0 0; background:none; border:1px dashed var(--line); border-radius:12px; padding:11px; color:var(--accent); font-size:14px; font-weight:600; cursor:pointer}
+  .rows{margin-top:6px}
+  .row{display:flex; width:100%; justify-content:space-between; gap:12px; padding:11px 4px; border:none; border-bottom:1px solid var(--line); background:none; font-size:14.5px; text-align:left; color:var(--text); cursor:pointer}
+  .row:last-child{border-bottom:none}
+  .row .k{color:var(--muted); flex:none}
+  .row .v{text-align:right; font-weight:500; overflow-wrap:anywhere}
+  .row .v::after{content:" ›"; color:var(--accent); font-weight:700}
+
+  /* ticket */
+  .ticket{margin-top:-6px; background:var(--surface); border:1px solid var(--line); border-top:2px dashed var(--line); border-radius:0 0 18px 18px; padding:18px 18px 16px; text-align:center}
+  .ticket .t-eyebrow{font-size:11px; letter-spacing:2.2px; text-transform:uppercase; color:var(--accent); font-weight:700}
+  .ticket .t-main{font-family:'Fraunces',Georgia,serif; font-size:21px; margin:4px 0 2px}
+  .ticket .t-sub{font-size:13px; color:var(--muted)}
+  .done-head{text-align:center; margin:4px 0 16px}
+  .done-head .big{font-family:'Fraunces',Georgia,serif; font-size:25px; font-weight:500; margin:0 0 4px; overflow-wrap:anywhere}
+  .done-head p{color:var(--muted); font-size:14.5px; margin:0}
+  .shot{text-align:center; font-size:14px; color:var(--pine); font-weight:600; margin:14px 0 4px}
+
+  .timeline{display:flex; justify-content:space-between; position:relative; margin:22px 4px 6px}
+  .timeline::before{content:""; position:absolute; top:7px; left:8%; right:8%; height:2px; background:var(--line)}
+  .tl{flex:1; text-align:center; position:relative; font-size:11.5px; color:var(--muted); line-height:1.3; padding:0 2px}
+  .tl i{display:block; width:16px; height:16px; border-radius:50%; background:#fff; border:2px solid var(--line); margin:0 auto 7px}
+  .tl.done i{background:var(--pine); border-color:var(--pine)}
+  .tl.now i{border-color:var(--accent); background:var(--sel)}
+  .tl b{display:block; color:var(--text); font-weight:600; font-size:12px}
+
+  .fallback{background:var(--surface2); border:1px solid var(--line); border-radius:12px; padding:14px; margin:18px 0 0; text-align:left}
+  .fallback .top{display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px; font-size:12px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.5px}
+  .mini{cursor:pointer; font-size:13px; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--surface); color:var(--text); font-weight:600}
+  .center{text-align:center}
+  .foot{text-align:center; margin-top:26px; font-size:11.5px; color:var(--muted)}
+
+  @media(max-width:420px){
+    .wrap{padding:16px 13px 40px}
+    .card{padding:22px 17px 18px}
+    h1.q{font-size:23px}
+    .swatches{gap:3px}
+    .sw .chip{height:44px; margin:0 2px}
+    .sw .lbl{font-size:11px}
+    .label-name{font-size:27px}
+  }
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important} }
+</style>
+</head>
+<body>
+<noscript><p style="padding:24px;text-align:center;font-family:sans-serif">This page needs JavaScript turned on. Or just reply to Russ's email with your beer idea!</p></noscript>
+<main class="wrap" id="app"></main>
+<script>
+/* =====================================================================
+   HEINSEN BREWERY — Friends & Family Edition No. 1
+   ---------------------------------------------------------------------
+   SETTINGS — the only things you should ever need to edit.
+   ===================================================================== */
+const BREWMASTER_EMAIL = "heinsen@gmail.com";
+const DESIGNS_CLOSE    = "";            // e.g. "Nov 30" — shown on the timeline (blank = no date)
+const REVEAL_WHEN      = "Spring 2027";
+const REVEAL_WHERE     = "Sandpoint";
+
+/* Google Form hookup. Leave FORM_URL blank until the form exists;
+   until then, Submit falls back to a pre-filled email.
+   FORM_URL looks like: https://docs.google.com/forms/d/e/XXXXXXXX/formResponse
+   Each FIELD value looks like: "entry.123456789"                        */
+const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeOHTZR-y5wXkASDV4-C7NnXelhRmZiC1DJ1hKDqjcBZ9d1BA/formResponse";
+const FIELDS = {
+  name:"entry.1905870444", beer:"entry.1514686178", style:"entry.24254334", color:"entry.901305422",
+  strength:"entry.382113027", balance:"entry.1778570392", body:"entry.1740987369",
+  malt:"entry.374923276", hops:"entry.1182684768", hopint:"entry.138709868", twist:"entry.1366534839",
+  occasion:"entry.711093269", nogo:"entry.296676200", like:"entry.1758516736", story:"entry.1549194483",
+  notes:"entry.2000023962", targets:"entry.1809655380", id:"entry.495889514"
+};
+
+/* ===================== ANSWER OPTIONS ===================== */
+const COLORS = [
+  {label:"Straw", hex:"#F6D154", srm:"2–3",  tone:"pale"},
+  {label:"Blond", hex:"#ECB73B", srm:"4–5",  tone:"pale"},
+  {label:"Gold",  hex:"#DD9A1E", srm:"6–8",  tone:"pale"},
+  {label:"Amber", hex:"#C8721A", srm:"10–14",tone:"amber"},
+  {label:"Red",   hex:"#A23A18", srm:"15–18",tone:"amber"},
+  {label:"Brown", hex:"#6A3611", srm:"18–25",tone:"dark"},
+  {label:"Black", hex:"#211108", srm:"30+",  tone:"dark"}
+];
+const STRENGTH = [
+  {v:"Session ~4%",  d:"Dock beer. Have three.",       ic:"🛶", abv:"3.8–4.5%"},
+  {v:"Standard ~5%", d:"The everyday pour.",            ic:"🍺", abv:"4.8–5.5%"},
+  {v:"Strong ~7%",   d:"A bit of a kick.",              ic:"⛷️", abv:"6.5–7.5%"},
+  {v:"Big ~8%+",     d:"Après-Schweitzer. Sip it slow.", ic:"🔥", abv:"8%+"}
+];
+const BALANCE = [
+  {v:"Hoppy & bitter", d:"Hops lead, with a crisp, dry finish.", bugu:"BU:GU ~0.8–1.0"},
+  {v:"Balanced",       d:"Malt and hops meet in the middle.",   bugu:"BU:GU ~0.5–0.65"},
+  {v:"Malty & rich",   d:"Bready, toasty, a little sweeter.",   bugu:"BU:GU ~0.3–0.45"}
+];
+const BODY = [
+  {v:"Crisp & light", d:"Thin and refreshing."},
+  {v:"Medium",        d:"Right down the middle."},
+  {v:"Full & chewy",  d:"Rich, coats your mouth."}
+];
+const MALT = [
+  {v:"Bready / biscuit", short:"Biscuit"},
+  {v:"Honey",            short:"Honey"},
+  {v:"Caramel / toffee", short:"Toffee"},
+  {v:"Toasty / nutty",   short:"Nutty"},
+  {v:"Chocolate",        short:"Chocolate"},
+  {v:"Coffee / roast",   short:"Roasty"}
+];
+const NOHOP = "Not much — let the malt talk";
+const HOPS = [
+  {v:"Citrus & grapefruit", short:"Citrus"},
+  {v:"Lemon & lime",        short:"Lemon-Lime"},
+  {v:"Tropical",            sub:"mango, passionfruit, guava", short:"Tropical"},
+  {v:"Melon",               short:"Melon"},
+  {v:"Stone fruit",         sub:"peach, apricot", short:"Stone Fruit"},
+  {v:"Berry",               short:"Berry"},
+  {v:"White wine & grape",  short:"Vinous"},
+  {v:"Pine & resin",        short:"Piney"},
+  {v:"Dank",                sub:"earthy, weedy", short:"Dank"},
+  {v:"Floral",              short:"Floral"},
+  {v:"Herbal & earthy",     short:"Herbal"},
+  {v:"Spicy & peppery",     short:"Spicy"}
+];
+const HOPINT = [
+  {v:"Subtle",       d:"There, but gentle."},
+  {v:"Moderate",     d:"Clearly hoppy when you sniff it."},
+  {v:"Hop-forward",  d:"You'll smell it across the room."}
+];
+const TWIST = [
+  {v:"Clean & classic", d:"Crisp and clean, so the malt and hops shine."},
+  {v:"Hazy & juicy",    d:"Soft, cloudy and juicy, like a New England IPA."},
+  {v:"Belgian & spicy", d:"Fruity and peppery, with a hint of clove."},
+  {v:"English & bready",d:"Soft, bready, a touch fruity. Pub style."}
+];
+const OCCASION = [
+  {v:"Lake, dock or patio", ic:"🌊"},
+  {v:"Après-ski or fireside", ic:"🔥"},
+  {v:"With dinner", ic:"🍽️"},
+  {v:"Anytime, any season", ic:"🍻"}
+];
+const NOGO_NONE = "Nothing — I'll drink anything";
+const NOGO = ["Too bitter","Banana or clove","Burnt or roasty","Too sweet","Boozy heat","Cloudy or hazy"];
+
+/* ===================== FLOW ===================== */
+const STEPS = ["name","color","strength","balance","body","malt","hops","hopint","twist","occasion","nogo","like","beername","story","label"];
+const QCOUNT = STEPS.length - 1;     // questions (label step is the review)
+const DONE = STEPS.length + 1;
+
+const BLANK = {designer:"", color:null, strength:null, balance:null, body:null, malt:[], hops:[], hopint:null,
+               twist:null, occasion:null, nogo:[], likebeer:"", beername:"", story:"", sid:"", sent:false, sentVia:""};
+let S = Object.assign({}, BLANK, {malt:[],hops:[],nogo:[]});
+let step = 0, locked = false, poured = null, showDetails = false, sending = false;
+const app = document.getElementById("app");
+
+/* ---------- persistence (survives app switching / reloads) ---------- */
+function save(){ try{ sessionStorage.setItem("hff1", JSON.stringify({S:S, step:step})); }catch(e){} }
+function load(){
+  try{
+    const r = JSON.parse(sessionStorage.getItem("hff1")||"null");
+    if(r && r.S){ S = Object.assign({}, BLANK, r.S); step = (typeof r.step==="number") ? r.step : 0; }
+  }catch(e){}
+}
+
+/* ---------- helpers ---------- */
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function noHops(){ return S.hops.indexOf(NOHOP) > -1; }
+function firstName(){ return (S.designer.split(/&| and /i)[0]||"").trim() || "friend"; }
+function colorObj(){ return S.color!=null ? COLORS[S.color] : null; }
+
+function logoSVG(size){ size=size||36; return '<svg viewBox="0 0 120 120" width="'+size+'" height="'+size+'" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M14 54 L34 26 L45 39 L62 12 L80 39 L90 26 L106 54"/><path d="M12 68 H108"/><path d="M22 80 H58 M68 80 H98" stroke-width="2.2"/><path d="M34 92 H86" stroke-width="1.8"/><path d="M46 104 H74" stroke-width="1.4"/></g></svg>'; }
+function sealSVG(w){ w=w||150; return '<svg viewBox="0 0 220 220" width="'+w+'" height="'+w+'" role="img" aria-label="Heinsen Brewery seal, established 1994"><g fill="none" stroke="#1D5C84" stroke-width="1.4" stroke-linecap="round"><circle cx="110" cy="110" r="104"/><circle cx="110" cy="110" r="97" stroke-width="0.6"/><path d="M40 96 L64 62 L78 78 L104 38 L128 78 L142 60 L180 96" stroke-width="1.6"/><path d="M104 38 L94 52 M104 38 L114 52" stroke-width="0.6"/><path d="M44 110 H176"/><path d="M56 121 H108 M122 121 H164" stroke-width="0.9"/><path d="M70 131 H100 M112 131 H150" stroke-width="0.7"/><path d="M84 141 H136" stroke-width="0.6"/></g><text x="110" y="167" text-anchor="middle" fill="#0F2A3F" style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:27px;font-weight:600;letter-spacing:0.08em">HEINSEN</text><g fill="#2F5D4A" style="font-family:\'Lora\',Georgia,serif;font-size:7.5px;letter-spacing:0.24em"><text x="110" y="184" text-anchor="middle">BREWERY</text><text x="110" y="197" text-anchor="middle">EST. 1994</text></g></svg>'; }
+let gid = 0;
+function glassSVG(hex, h, animate, onDark){
+  h = h||90; const w = Math.round(h*0.62); const id = "g"+(++gid);
+  const empty = onDark ? "#163A55" : "#E3ECF1";
+  const stroke = onDark ? "#A9C4D8" : "#1D5C84";
+  let inner = '<rect x="10" y="0" width="38" height="84" fill="'+empty+'"/>';
+  if(hex){
+    const anim = animate ? '<animate attributeName="y" from="84" to="20" dur="0.55s" fill="freeze"/>' : '';
+    const foamAnim = animate ? '<animate attributeName="y" from="77" to="13" dur="0.55s" fill="freeze"/>' : '';
+    inner += '<rect x="10" y="20" width="38" height="64" fill="'+hex+'">'+anim+'</rect>'+
+             '<rect x="10" y="13" width="38" height="8" fill="#FFFDF5">'+foamAnim+'</rect>';
+  }
+  return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 56 84" aria-hidden="true"><clipPath id="'+id+'"><path d="M12 6 H44 L40.5 73 Q40.5 79 35 79 H21 Q15.5 79 15.5 73 Z"/></clipPath><g clip-path="url(#'+id+')">'+inner+'</g><path d="M12 6 H44 L40.5 73 Q40.5 79 35 79 H21 Q15.5 79 15.5 73 Z" fill="none" stroke="'+stroke+'" stroke-width="1.6"/></svg>';
+}
+function header(){
+  return '<div class="mark" style="color:#1D5C84">'+logoSVG(36)+'<div class="name">Heinsen Brewery<small>Friends &amp; Family Edition No. 1</small></div></div>';
+}
+function progress(){
+  let d = "";
+  for(let i=1;i<=QCOUNT;i++){ d += '<i class="'+(i<step?'done':(i===step?'on':''))+'"></i>'; }
+  const txt = step<=QCOUNT ? ("Question "+step+" of "+QCOUNT) : "Last look";
+  return '<div class="prog-wrap"><div class="prog" aria-hidden="true">'+d+'</div><div class="prog-txt">'+txt+'</div></div>';
+}
+function previewStrip(){
+  const c = colorObj();
+  if(!c && !S.beername) return "";
+  const animate = c && poured !== S.color;
+  if(c) poured = S.color;
+  const nm = S.beername ? '<div class="glass-name">“'+esc(S.beername)+'”</div>' : '';
+  return '<div class="preview">'+glassSVG(c?c.hex:null, 64, animate)+nm+'</div>';
+}
+
+/* ---------- navigation ---------- */
+function go(n, push){
+  step = n; save();
+  if(push !== false){ try{ history.pushState({s:n}, ""); }catch(e){} }
+  render();
+}
+function nextStep(from){ let n = from+1; if(STEPS[n-1]==="hopint" && noHops()){ S.hopint=null; n++; } return n; }
+function prevStep(from){ let n = from-1; if(n>=1 && STEPS[n-1]==="hopint" && noHops()) n--; return Math.max(0,n); }
+window.addEventListener("popstate", e=>{
+  const n = (e.state && typeof e.state.s==="number") ? e.state.s : 0;
+  if(S.sent && n < DONE){ go(DONE); return; }      // never un-send
+  step = n; save(); render();
+});
+
+/* ---------- render ---------- */
+function render(){
+  if(step===0) renderWelcome();
+  else if(step===DONE) renderDone();
+  else {
+    const key = STEPS[step-1];
+    const body = VIEWS[key]();
+    app.innerHTML = header() + progress() + (key!=="label" ? previewStrip() : "") + '<section class="card">'+body+'</section>' +
+      '<div class="foot">Heinsen Brewery · Sandpoint, Idaho</div>';
+  }
+  window.scrollTo(0,0);
+  locked = true; setTimeout(()=>{ locked=false; }, 380);   // swallow stray double-taps
+  const f = app.querySelector("[data-autofocus]");
+  if(f && window.matchMedia("(hover:hover)").matches){ try{ f.focus({preventScroll:true}); }catch(e){} }
+}
+
+function nav(opts){
+  opts = opts||{};
+  const show = opts.next !== false;
+  return '<div class="nav"><button type="button" class="btn ghost" data-act="back">Back</button>'+
+    (show ? '<button type="'+(opts.submit?'submit':'button')+'" class="btn primary" id="nextBtn" data-act="'+(opts.act||'next')+'">'+(opts.label||'Next')+'</button>' : '')+
+    '</div><div class="err" id="err" role="alert"></div>';
+}
+function choiceList(field, arr){
+  return '<div class="choices">'+arr.map((o,i)=>
+    '<button type="button" class="choice" aria-pressed="'+(S[field]===i)+'" data-act="pick" data-f="'+field+'" data-i="'+i+'">'+
+      (o.ic?'<span class="ic" aria-hidden="true">'+o.ic+'</span>':'')+
+      '<span><b>'+esc(o.v)+'</b>'+(o.d?'<span class="d">'+esc(o.d)+'</span>':'')+'</span><span class="tick" aria-hidden="true">✓</span></button>'
+  ).join('')+'</div>';
+}
+function q(eyebrow, title, sub){ return '<p class="eyebrow">'+eyebrow+'</p><h1 class="q">'+title+'</h1>'+(sub?'<p class="q-sub">'+sub+'</p>':''); }
+
+const VIEWS = {
+  name(){
+    return '<form data-form>'+q("First things first","Who's designing this beer?","Solo or as a pair, one design each.")+
+      '<label class="fld" for="f_name">Your name(s)</label>'+
+      '<input type="text" id="f_name" data-field="designer" data-autofocus maxlength="80" autocomplete="name" autocapitalize="words" enterkeyhint="next" placeholder="e.g. Russ & Lisa" value="'+esc(S.designer)+'">'+
+      nav({submit:true})+'</form>';
+  },
+  color(){
+    const sw = COLORS.map((c,i)=>'<button type="button" class="sw" aria-pressed="'+(S.color===i)+'" aria-label="'+c.label+'" data-act="color" data-i="'+i+'"><span class="chip" style="background:'+c.hex+'"></span><span class="lbl">'+c.label+'</span></button>').join('');
+    return q("The look","Hold it up to the light. What color is it?","Tap one and watch the glass fill.")+
+      '<div class="swatches" role="group" aria-label="Beer color">'+sw+'</div>'+nav({next:S.color!=null});
+  },
+  strength(){ return q("The strength","How strong should it be?","From “I'll have a few” to “one and done.”")+choiceList("strength",STRENGTH)+nav({next:S.strength!=null}); },
+  balance(){ return q("The personality","Hoppy, malty, or right in between?","Hops bring bitterness and aroma. Malt brings bread, toast and sweetness.")+choiceList("balance",BALANCE)+nav({next:S.balance!=null}); },
+  body(){ return q("The feel","How should it feel in your mouth?","Light and refreshing, or rich and filling?")+choiceList("body",BODY)+nav({next:S.body!=null}); },
+  malt(){
+    const t = MALT.map((m,i)=>'<button type="button" class="tag" aria-pressed="'+(S.malt.indexOf(m.v)>-1)+'" data-act="multi" data-f="malt" data-i="'+i+'">'+esc(m.v)+'</button>').join('');
+    return q("The malt","Any of these flavors in the background?","Pick up to 2, or skip if nothing jumps out.")+'<div class="tags">'+t+'</div><p class="hint" id="hint">'+S.malt.length+' of 2 picked</p>'+
+      nav({label: S.malt.length? 'Next' : 'Skip'});
+  },
+  hops(){
+    const t = HOPS.map((h,i)=>'<button type="button" class="tag" aria-pressed="'+(S.hops.indexOf(h.v)>-1)+'" data-act="multi" data-f="hops" data-i="'+i+'">'+esc(h.v)+(h.sub?' <small>('+esc(h.sub)+')</small>':'')+'</button>').join('')+
+      '<button type="button" class="tag wide" aria-pressed="'+noHops()+'" data-act="nohop">'+NOHOP+'</button>';
+    return q("The hops","What should it smell and taste like?","Pick up to 3.")+'<div class="tags">'+t+'</div><p class="hint" id="hint">'+(noHops()?'Malt it is.':S.hops.length+' of 3 picked')+'</p>'+nav({next:S.hops.length>0});
+  },
+  hopint(){ return q("The hop volume","How loud are those hops?","A gentle hint, or front and center?")+choiceList("hopint",HOPINT)+nav({next:S.hopint!=null}); },
+  twist(){ return q("The house style","Pick a personality for the yeast.","This shapes the beer's character more than you'd think.")+choiceList("twist",TWIST)+nav({next:S.twist!=null}); },
+  occasion(){ return q("The moment","Where are you drinking it?","Picture the first sip.")+choiceList("occasion",OCCASION)+nav({next:S.occasion!=null}); },
+  nogo(){
+    const t = NOGO.map((n,i)=>'<button type="button" class="tag" aria-pressed="'+(S.nogo.indexOf(n)>-1)+'" data-act="multi" data-f="nogo" data-i="'+i+'">'+esc(n)+'</button>').join('')+
+      '<button type="button" class="tag wide" aria-pressed="'+(S.nogo.indexOf(NOGO_NONE)>-1)+'" data-act="nogonone">'+NOGO_NONE+'</button>';
+    return q("The deal-breakers","Anything you can't stand in a beer?","Tap any that apply, or skip.")+'<div class="tags">'+t+'</div><p class="hint" id="hint"></p>'+
+      nav({label: S.nogo.length? 'Next' : 'Skip'});
+  },
+  like(){
+    return '<form data-form>'+q("A reference point","Is there a beer it should be like?","Optional, but it really helps me hit the target.")+
+      '<label class="fld" for="f_like">“Make it like…”</label>'+
+      '<input type="text" id="f_like" data-field="likebeer" data-autofocus maxlength="150" enterkeyhint="next" placeholder="e.g. Sierra Nevada Pale Ale, or a Guinness" value="'+esc(S.likebeer)+'">'+
+      nav({submit:true, label: S.likebeer? 'Next':'Skip'})+'</form>';
+  },
+  beername(){
+    return '<form data-form>'+q("The fun part","Name your beer.","If it gets brewed, this goes on the tap handle.")+
+      '<label class="fld" for="f_bn">Beer name</label>'+
+      '<input type="text" id="f_bn" data-field="beername" data-autofocus maxlength="40" autocapitalize="words" enterkeyhint="next" placeholder="e.g. Schweitzer Sunrise" value="'+esc(S.beername)+'">'+
+      '<div class="count" id="cnt">'+S.beername.length+' / 40</div>'+
+      nav({submit:true})+'</form>';
+  },
+  story(){
+    return '<form data-form>'+q("The why","What inspired your beer?","A memory, a place, a person. This gets read aloud at the reveal.")+
+      '<label class="fld" for="f_story">The story</label>'+
+      '<textarea id="f_story" data-field="story" data-autofocus maxlength="1200" placeholder="e.g. Reminds me of the beer we had on the boat last summer. Something I could sip all afternoon on the lake.">'+esc(S.story)+'</textarea>'+
+      nav({submit:true, label:'See my beer →'})+'</form>';
+  },
+  label(){
+    const notes = brewerNotes();
+    const rows = [
+      ["Names", S.designer, "name"],
+      ["Color", colorObj()?colorObj().label:"—", "color"],
+      ["Strength", pickV(STRENGTH,S.strength), "strength"],
+      ["Balance", pickV(BALANCE,S.balance), "balance"],
+      ["Body", pickV(BODY,S.body), "body"],
+      ["Malt", S.malt.join(", ")||"No preference", "malt"],
+      ["Hops", S.hops.join(", "), "hops"]
+    ];
+    if(!noHops()) rows.push(["Hop volume", pickV(HOPINT,S.hopint), "hopint"]);
+    rows.push(["Yeast style", pickV(TWIST,S.twist), "twist"],
+              ["Drinking it", pickV(OCCASION,S.occasion), "occasion"],
+              ["Deal-breakers", S.nogo.join(", ")||"None", "nogo"],
+              ["Make it like", S.likebeer||"—", "like"],
+              ["Beer name", S.beername, "beername"],
+              ["Story", S.story ? (S.story.length>70? S.story.slice(0,70)+"…" : S.story) : "—", "story"]);
+    const rowHtml = rows.map(r=>'<button type="button" class="row" data-act="edit" data-i="'+(STEPS.indexOf(r[2])+1)+'" aria-label="Change '+r[0]+'"><span class="k">'+r[0]+'</span><span class="v">'+esc(r[1])+'</span></button>').join('');
+    return labelCard(true)+
+      '<p class="after-label">Here\'s your beer. Look good on a tap handle?</p>'+
+      (notes.length ? '<div class="note"><b>A note from the brewer</b>'+notes.map(n=>'<p>'+esc(n)+'</p>').join('')+'</div>' : '')+
+      '<button type="button" class="details-toggle" data-act="details" aria-expanded="'+showDetails+'">'+(showDetails?'Hide your answers':'See or change your answers')+'</button>'+
+      (showDetails ? '<div class="rows">'+rowHtml+'</div>' : '')+
+      nav({act:'submit', label:'Send my design to Russ'});
+  }
+};
+function pickV(arr,i){ return (i!=null && arr[i]) ? arr[i].v : "—"; }
+
+/* ---------- the label (shareable moment) ---------- */
+function designNo(){
+  if(!S.sid) S.sid = Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  let h=0; for(const ch of S.sid) h=(h*31+ch.charCodeAt(0))>>>0;
+  return String(h%900+100);
+}
+function labelCard(animate){
+  const c = colorObj();
+  const meta = [pickV(STRENGTH,S.strength).replace(/^.*?~/,"~").replace(/^—$/,""), c?c.label:"", S.body!=null?BODY[S.body].v.split(" & ")[0]+" body":""].filter(Boolean).join(" · ");
+  return '<div class="label-card" role="img" aria-label="Your beer label: '+esc(S.beername)+', '+esc(styleName())+'">'+
+    '<div class="label-top"><span class="brand">'+logoSVG(22)+'Heinsen Brewery</span><span>F&amp;F No. 1 · #'+designNo()+'</span></div>'+
+    '<div class="label-glass">'+glassSVG(c?c.hex:"#C8721A", 118, animate, true)+'</div>'+
+    '<div class="label-name">'+esc(S.beername||"Your Beer")+'</div>'+
+    '<div class="label-style">'+esc(styleName())+'</div>'+
+    '<div class="label-meta">'+esc(meta)+'</div>'+
+    '<div class="label-by"><span>Designed by</span> '+esc(S.designer)+'</div>'+
+    '<svg class="ridge" viewBox="0 0 320 26" preserveAspectRatio="none" aria-hidden="true"><path d="M0 26 L40 10 L62 18 L104 2 L140 16 L170 8 L214 22 L250 6 L286 16 L320 8 L320 26 Z" fill="#163A55"/></svg>'+
+    '<div class="label-band">Limited release · One batch only</div>'+
+  '</div>';
+}
+
+/* ---------- style inference ("Sounds like a…") ---------- */
+function styleName(){
+  const c = colorObj(); if(!c || S.strength==null) return "A one-of-a-kind ale";
+  const t = c.tone, k = S.strength;
+  const tw = S.twist!=null ? TWIST[S.twist].v : "Clean & classic";
+  const bal = S.balance!=null ? BALANCE[S.balance].v : "Balanced";
+  const isBlack = c.label==="Black";
+  let base;
+  if(tw.indexOf("Belgian")===0){
+    base = {pale:["Belgian Blonde","Belgian Blonde","Belgian Golden Strong","Tripel"],
+            amber:["Belgian Pale Ale","Belgian Pale Ale","Dubbel","Dubbel"],
+            dark:["Dubbel","Dubbel","Dubbel","Belgian Dark Strong"]}[t][k];
+  } else if(tw.indexOf("Hazy")===0){
+    base = t==="pale" ? ["Hazy Session IPA","Hazy Pale Ale","Hazy IPA","Hazy Double IPA"][k] : (t==="amber" ? "Hazy Red IPA" : "Hazy Black IPA");
+  } else if(bal.indexOf("Hoppy")===0){
+    if(tw.indexOf("English")===0){
+      base = t==="dark" ? ["Dark Mild","Brown Porter","Robust Porter","Imperial Stout"][k]
+           : (t==="pale" ? ["Ordinary Bitter","English Pale Ale","English IPA","English IPA"][k] : ["Bitter","ESB","English IPA","Barleywine"][k]);
+    } else {
+      base = t==="pale" ? ["Session IPA","Pale Ale","IPA","Double IPA"][k] : (t==="amber" ? ["Red IPA","Red IPA","Red IPA","American Strong Ale"][k] : "Black IPA");
+    }
+  } else if(bal==="Balanced" && tw.indexOf("English")!==0){
+    if(t==="pale") base = ["Blonde Ale","Golden Ale","Golden Ale","Golden Strong Ale"][k];
+    else if(t==="amber") base = [c.label==="Red"?"Irish Red Ale":"Amber Ale","Amber Ale","Amber Ale","Strong Ale"][k];
+    else base = [isBlack && S.body===0 ? "Dry Irish Stout" : "Dark Mild", isBlack?"Porter":"Brown Ale","Robust Porter","Imperial Stout"][k];
+  } else { // malty, or English twist
+    if(t==="pale") base = ["Golden Ale","Golden Ale","Golden Strong Ale","Golden Strong Ale"][k];
+    else if(t==="amber") base = ["Bitter","ESB","Scotch Ale","Barleywine"][k];
+    else base = [isBlack && S.body===0 ? "Dry Irish Stout" : "Dark Mild", isBlack?"Porter":"Brown Ale","Old Ale","Imperial Stout"][k];
+  }
+  // flavor word in front
+  let word = "";
+  const hopLoud = !noHops() && S.hopint!=null && S.hopint>0 && S.hops.length;
+  if(hopLoud){ const h = HOPS.find(x=>x.v===S.hops[0]); word = h ? h.short : ""; }
+  else if(S.malt.length){ const m = MALT.find(x=>x.v===S.malt[0]); word = m ? m.short : ""; }
+  if(word && base.toLowerCase().indexOf(word.toLowerCase())>-1) word = "";
+  const name = (word ? word+" " : "") + base;
+  return "Sounds like a"+(/^[AEIOU]/i.test(name)?"n ":" ")+name;
+}
+
+/* ---------- friendly brewer notes (never blocking) ---------- */
+function brewerNotes(){
+  const n = [], c = colorObj();
+  const tw = S.twist!=null ? TWIST[S.twist].v : "";
+  if(!c) return n;
+  if(tw.indexOf("Hazy")===0 && c.tone==="dark") n.push("Hazy and dark is a rare combo, a hazy black IPA. Unusual, but I'm game.");
+  if(tw.indexOf("Hazy")===0 && S.balance===0) n.push("Hazy beers lean soft and juicy rather than bitter. I'll find a balance between the two.");
+  if(c.label==="Straw" && S.balance===2) n.push("In a beer this pale, “malty” comes across as bready or honey rather than caramel.");
+  if(c.tone==="pale" && S.body===2 && S.strength===3) n.push("Pale, full-bodied and 8%+ is a real brewing challenge. Challenge accepted.");
+  if(c.tone==="pale" && (S.malt.indexOf("Chocolate")>-1 || S.malt.indexOf("Coffee / roast")>-1)) n.push("Chocolate and roast flavors usually come with a darker color. A pale version is possible, just tricky.");
+  if(S.nogo.indexOf("Too bitter")>-1 && S.balance===0) n.push("You picked hoppy but not too bitter. I'll lean on hop aroma and keep the bitterness in check.");
+  if(S.nogo.indexOf("Banana or clove")>-1 && tw.indexOf("Belgian")===0) n.push("Belgian yeast usually brings clove and fruit. I'll pick a cleaner Belgian strain.");
+  if(S.nogo.indexOf("Burnt or roasty")>-1 && S.malt.indexOf("Coffee / roast")>-1) n.push("Coffee flavor without the burnt edge: I'll keep the roast smooth.");
+  if(S.nogo.indexOf("Cloudy or hazy")>-1 && tw.indexOf("Hazy")===0) n.push("You picked hazy but also said no to cloudy. I'll aim for a soft, juicy beer that's on the clearer side.");
+  return n;
+}
+
+/* ---------- Russ-only brewing targets ---------- */
+function targets(){
+  const c = colorObj();
+  return [c?("SRM "+c.srm):"", S.strength!=null?("ABV "+STRENGTH[S.strength].abv):"", S.balance!=null?BALANCE[S.balance].bugu:""].filter(Boolean).join(" · ");
+}
+
+/* ---------- welcome / done ---------- */
+function partyLine(){ return "Every design gets read aloud at the reveal. The winner gives the first toast."; }
+function renderWelcome(){
+  app.innerHTML =
+    '<div class="center" style="margin-top:4px">'+sealSVG(150)+'</div>'+
+    '<p class="edition">Friends &amp; Family Edition No. 1</p>'+
+    '<p class="tagline">Limited release · One batch only</p>'+
+    '<section class="card">'+
+      '<p class="welcome-lead">You\'re invited to design the next <em>Heinsen Brewery beer.</em></p>'+
+      '<p class="welcome-p">Answer a few quick questions about your dream beer and give it a name. I\'ll pick one to brew over the winter, and come spring we\'ll gather to crack open the very first pour together.</p>'+
+      '<p class="party-line">'+partyLine()+'</p>'+
+      '<div class="nav" style="margin-top:0"><button type="button" class="btn primary" data-act="start">'+(S.designer && !S.sent ? 'Pick up where you left off →' : 'Design your beer →')+'</button></div>'+
+      '<p class="meta-line">'+QCOUNT+' quick questions · about 3 minutes</p>'+
+    '</section>'+
+    '<div class="foot">Heinsen Brewery · Sandpoint, Idaho</div>';
+}
+function timeline(){
+  const items = [
+    ["Designs in", DESIGNS_CLOSE ? "close "+DESIGNS_CLOSE : "you're in!", "done"],
+    ["Brewer picks", "one design", "now"],
+    ["Winter", "in the fermenter", ""],
+    ["Reveal", REVEAL_WHEN, ""]
+  ];
+  return '<div class="timeline">'+items.map(t=>'<div class="tl '+t[2]+'"><i></i><b>'+esc(t[0])+'</b>'+esc(t[1])+'</div>').join('')+'</div>';
+}
+function renderDone(){
+  const viaEmail = S.sentVia === "email";
+  const head = viaEmail
+    ? '<div class="done-head"><div class="big">Almost there, '+esc(firstName())+'!</div><p>Your email app should be open with your design. Just hit <b>Send</b>.</p></div>'
+    : '<div class="done-head"><div class="big">Cheers, '+esc(firstName())+'. “'+esc(S.beername)+'” is in.</div><p>It\'s on the brewer\'s bench with everyone else\'s.</p></div>';
+  const fallback = viaEmail
+    ? '<div class="fallback"><div class="top"><span>Nothing opened?</span><span><button type="button" class="mini" data-act="copy" id="copyBtn">Copy</button> <button type="button" class="mini" data-act="mailto">Open email</button></span></div>'+
+      '<p style="font-size:13.5px;color:var(--muted);margin:0 0 8px">Copy your design and email it to <b>'+esc(BREWMASTER_EMAIL)+'</b>.</p>'+
+      '<textarea id="dBox" readonly style="height:130px;font-size:13px"></textarea></div>'
+    : '';
+  app.innerHTML = header() +
+    '<div style="margin-top:16px">'+head+'</div>'+
+    labelCard(false)+
+    '<div class="ticket"><div class="t-eyebrow">Your ticket · Reveal party</div><div class="t-main">'+esc(REVEAL_WHEN)+' · '+esc(REVEAL_WHERE)+'</div><div class="t-sub">'+partyLine()+'</div></div>'+
+    '<p class="shot">📸 Screenshot this. It\'s your ticket to the first pour.</p>'+
+    timeline()+
+    fallback+
+    '<div class="center" style="margin-top:18px"><button type="button" class="linkbtn" data-act="again">Got a second idea? Brewers are allowed two.</button></div>'+
+    '<div class="foot">Heinsen Brewery · Sandpoint, Idaho</div>';
+  const ta = document.getElementById("dBox"); if(ta) ta.value = plainText();
+}
+
+/* ---------- submission ---------- */
+function payload(){
+  return {
+    name:S.designer, beer:S.beername, style:styleName().replace(/^Sounds like an? /,""),
+    color:colorObj()?colorObj().label:"", strength:pickV(STRENGTH,S.strength), balance:pickV(BALANCE,S.balance),
+    body:pickV(BODY,S.body), malt:S.malt.join(", "), hops:S.hops.join(", "), hopint:noHops()?"":pickV(HOPINT,S.hopint),
+    twist:pickV(TWIST,S.twist), occasion:pickV(OCCASION,S.occasion), nogo:S.nogo.join(", "),
+    like:S.likebeer, story:S.story, notes:brewerNotes().join(" | "), targets:targets(), id:S.sid
+  };
+}
+function plainText(){
+  const p = payload();
+  return ["Heinsen Brewery — Friends & Family Edition No. 1 design","",
+    "Beer name: "+p.beer, "Designed by: "+p.name, "Style guess: "+p.style, "",
+    "Color: "+p.color, "Strength: "+p.strength, "Balance: "+p.balance, "Body: "+p.body,
+    "Malt: "+(p.malt||"No preference"), "Hops: "+p.hops, "Hop volume: "+(p.hopint||"—"),
+    "Yeast style: "+p.twist, "Drinking it: "+p.occasion, "Deal-breakers: "+(p.nogo||"None"),
+    "Make it like: "+(p.like||"—"), "", "Story: "+(p.story||"—"), "",
+    "Brewer notes: "+(p.notes||"—"), "Targets (for Russ): "+p.targets, "Design ID: "+p.id].join("\n");
+}
+function mailtoURL(){
+  const subj = 'F&F No. 1 design: "'+S.beername+'" by '+S.designer;
+  return "mailto:"+BREWMASTER_EMAIL+"?subject="+encodeURIComponent(subj)+"&body="+encodeURIComponent(plainText());
+}
+async function postOnce(params, ms){
+  const ctl = ("AbortController" in window) ? new AbortController() : null;
+  const t = ctl ? setTimeout(()=>ctl.abort(), ms) : null;
+  try{ await fetch(FORM_URL, {method:"POST", mode:"no-cors", body:params, signal: ctl?ctl.signal:undefined}); return true; }
+  catch(e){ return false; }
+  finally{ if(t) clearTimeout(t); }
+}
+async function submitDesign(){
+  if(sending || S.sent) return;
+  sending = true;
+  const btn = document.getElementById("nextBtn"); if(btn){ btn.disabled = true; btn.textContent = "Sending…"; }
+  designNo(); // ensures sid
+  let ok = false;
+  if(FORM_URL){
+    const p = payload(), params = new URLSearchParams();
+    Object.keys(FIELDS).forEach(k=>{ if(FIELDS[k]) params.append(FIELDS[k], p[k]||""); });
+    if(navigator.onLine !== false) ok = await postOnce(params, 9000);
+    if(!ok){ await new Promise(r=>setTimeout(r,1500)); ok = await postOnce(params, 12000); }
+  }
+  sending = false;
+  if(ok){ S.sent = true; S.sentVia = "form"; }
+  else  { S.sent = true; S.sentVia = "email"; try{ window.location.href = mailtoURL(); }catch(e){} }
+  go(DONE);
+}
+
+/* ---------- events ---------- */
+function setErr(m){ const e=document.getElementById("err"); if(e) e.textContent=m; }
+function flashHint(msg){
+  const h = document.getElementById("hint"); if(!h) return;
+  h.textContent = msg; h.classList.add("flash");
+  setTimeout(()=>{ h.classList.remove("flash"); }, 1600);
+}
+function validate(){
+  const key = STEPS[step-1];
+  switch(key){
+    case "name": S.designer = S.designer.trim(); if(!S.designer){ setErr("Add your name(s) so I know whose beer this is."); return false; } break;
+    case "color": if(S.color==null){ setErr("Tap a color."); return false; } break;
+    case "hops": if(!S.hops.length){ setErr("Pick at least one, or “Not much.”"); return false; } break;
+    case "beername": S.beername = S.beername.trim(); if(!S.beername){ setErr("Give it a name. That's half the fun."); return false; } break;
+    default: {
+      const single = {strength:1,balance:1,body:1,hopint:1,twist:1,occasion:1};
+      if(single[key] && S[key]==null){ setErr("Pick one."); return false; }
+    }
+  }
+  return true;
+}
+function advance(){ if(!validate()) return; save(); go(nextStep(step)); }
+
+app.addEventListener("click", e=>{
+  const t = e.target.closest("[data-act]"); if(!t) return;
+  const act = t.dataset.act;
+  if(t.type==="submit") return;                     // handled by form submit
+  if(locked && act!=="back" && act!=="copy") return;
+  const i = t.dataset.i!=null ? +t.dataset.i : null;
+  switch(act){
+    case "start": go(1); break;
+    case "back": go(step===DONE ? DONE : prevStep(step)); break;
+    case "next": advance(); break;
+    case "color": S.color = i; save(); render(); break;
+    case "pick": {
+      const f = t.dataset.f; S[f] = i; save();
+      app.querySelectorAll('.choice').forEach(b=>b.setAttribute("aria-pressed", String(+b.dataset.i===i)));
+      locked = true;
+      setTimeout(()=>{ go(nextStep(step)); }, 260);
+      break;
+    }
+    case "multi": {
+      const f = t.dataset.f, list = f==="malt"?MALT:(f==="hops"?HOPS:null);
+      const val = list ? list[i].v : NOGO[i];
+      const max = f==="malt"?2:(f==="hops"?3:99);
+      const arr = S[f];
+      if(f==="hops"){ const k=arr.indexOf(NOHOP); if(k>-1) arr.splice(k,1); }
+      if(f==="nogo"){ const k=arr.indexOf(NOGO_NONE); if(k>-1) arr.splice(k,1); }
+      const at = arr.indexOf(val);
+      if(at>-1) arr.splice(at,1);
+      else { if(arr.length>=max){ flashHint("That's "+max+". Tap one to swap it out."); return; } arr.push(val); }
+      save(); render(); locked=false; break;
+    }
+    case "nohop": S.hops = noHops()? [] : [NOHOP]; save(); render(); locked=false; break;
+    case "nogonone": S.nogo = S.nogo.indexOf(NOGO_NONE)>-1 ? [] : [NOGO_NONE]; save(); render(); locked=false; break;
+    case "details": showDetails = !showDetails; render(); locked=false; break;
+    case "edit": showDetails = false; go(i); break;
+    case "submit": submitDesign(); break;
+    case "mailto": try{ window.location.href = mailtoURL(); }catch(err){} break;
+    case "copy": {
+      const ta = document.getElementById("dBox"); if(!ta) break;
+      ta.focus(); ta.select(); let ok=false;
+      try{ ok = document.execCommand("copy"); }catch(err){}
+      if(!ok && navigator.clipboard){ navigator.clipboard.writeText(ta.value).then(()=>{},()=>{}); ok=true; }
+      t.textContent = ok ? "Copied ✓" : "Select & copy"; setTimeout(()=>{ t.textContent="Copy"; }, 1800);
+      break;
+    }
+    case "again": resetAll(); break;
+  }
+});
+app.addEventListener("submit", e=>{
+  e.preventDefault();
+  if(locked) return;
+  advance();
+});
+app.addEventListener("input", e=>{
+  const f = e.target.dataset && e.target.dataset.field; if(!f) return;
+  S[f] = e.target.value; save();
+  if(f==="beername"){ const c=document.getElementById("cnt"); if(c) c.textContent = S.beername.length+" / 40"; }
+  if(f==="likebeer"){ const b=document.getElementById("nextBtn"); if(b) b.textContent = S.likebeer.trim()? "Next":"Skip"; }
+  setErr("");
+});
+
+function resetAll(){
+  S = Object.assign({}, BLANK, {malt:[],hops:[],nogo:[]});
+  poured = null; showDetails = false;
+  try{ sessionStorage.removeItem("hff1"); }catch(e){}
+  go(0);
+}
+
+/* ---------- boot ---------- */
+load();
+if(step>DONE || step<0) step = 0;
+if(S.sent) step = DONE;
+try{ history.replaceState({s:step}, ""); }catch(e){}
+render();
+</script>
+</body>
+</html>
