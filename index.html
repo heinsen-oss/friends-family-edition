@@ -478,7 +478,18 @@ function styleName(){
             amber:["Belgian Pale Ale","Belgian Pale Ale","Dubbel","Dubbel"],
             dark:["Dubbel","Dubbel","Dubbel","Belgian Dark Strong"]}[t][k];
   } else if(tw.indexOf("Hazy")===0){
-    base = t==="pale" ? ["Hazy Session IPA","Hazy Pale Ale","Hazy IPA","Hazy Double IPA"][k] : (t==="amber" ? "Hazy Red IPA" : "Hazy Black IPA");
+    const isRed = c.label==="Red";
+    if(bal.indexOf("Hoppy")===0){
+      base = t==="pale" ? ["Hazy Session IPA","Hazy Pale Ale","Hazy IPA","Hazy Double IPA"][k] : (t==="amber" ? "Hazy Red IPA" : "Hazy Black IPA");
+    } else if(bal==="Balanced"){
+      if(t==="pale") base = ["Hazy Session Pale","Hazy Pale Ale","Hazy IPA","Hazy Double IPA"][k];
+      else if(t==="amber") base = k===3 ? "Hazy Strong Ale" : (isRed ? "Hazy Red Ale" : "Hazy Amber Ale");
+      else base = isBlack ? (k===3 ? "Hazy Imperial Porter" : "Hazy Porter") : "Hazy Brown Ale";
+    } else { // malty & rich
+      if(t==="pale") base = k>=2 ? "Hazy Golden Strong Ale" : "Hazy Golden Ale";
+      else if(t==="amber") base = k===3 ? "Hazy Strong Ale" : (isRed ? "Hazy Red Ale" : "Hazy Amber Ale");
+      else base = isBlack ? (k===3 ? "Hazy Imperial Porter" : "Hazy Porter") : "Hazy Brown Ale";
+    }
   } else if(bal.indexOf("Hoppy")===0){
     if(tw.indexOf("English")===0){
       base = t==="dark" ? ["Dark Mild","Brown Porter","Robust Porter","Imperial Stout"][k]
@@ -498,7 +509,9 @@ function styleName(){
   // flavor word in front
   let word = "";
   const hopLoud = !noHops() && S.hopint!=null && S.hopint>0 && S.hops.length;
-  if(hopLoud){ const h = HOPS.find(x=>x.v===S.hops[0]); word = h ? h.short : ""; }
+  const maltLead = bal.indexOf("Malty")===0 && S.malt.length;
+  if(maltLead){ const m = MALT.find(x=>x.v===S.malt[0]); word = m ? m.short : ""; }
+  else if(hopLoud){ const h = HOPS.find(x=>x.v===S.hops[0]); word = h ? h.short : ""; }
   else if(S.malt.length){ const m = MALT.find(x=>x.v===S.malt[0]); word = m ? m.short : ""; }
   if(word && base.toLowerCase().indexOf(word.toLowerCase())>-1) word = "";
   const name = (word ? word+" " : "") + base;
