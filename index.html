@@ -371,7 +371,7 @@ const VIEWS = {
   },
   color(){
     const sw = COLORS.map((c,i)=>'<button type="button" class="sw" aria-pressed="'+(S.color===i)+'" aria-label="'+c.label+'" data-act="color" data-i="'+i+'"><span class="chip" style="background:'+c.hex+'"></span><span class="lbl">'+c.label+'</span></button>').join('');
-    return q("The look","Hold it up to the light. What color is it?","Tap one and watch the glass fill.")+
+    return q("The look","Hold it up to the light. What color is it?","")+
       '<div class="swatches" role="group" aria-label="Beer color">'+sw+'</div>'+nav({next:S.color!=null});
   },
   strength(){ return q("The strength","How strong should it be?","From “I'll have a few” to “one and done.”")+choiceList("strength",STRENGTH)+nav({next:S.strength!=null}); },
